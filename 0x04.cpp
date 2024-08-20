@@ -4,7 +4,7 @@
 #include <vector>
 using namespace std;
 
-
+// 1406 에디터
 int main(){
 
     string init;
@@ -36,4 +36,37 @@ int main(){
     for (auto c: L) cout<< c;
     return 0 ;
 
+}
+// 5397 키로거
+int main(){
+    int n ;
+    cin >>  n;
+    while (n--){
+        string op ;
+        cin >> op;
+
+        list<char> result;
+        auto cursor = result.begin();
+
+        for (char c: op){
+            if(c =='<') {
+                if (cursor != result.begin()) cursor--;
+            }else if(c=='>'){
+                if(cursor != result.end()) cursor++;
+            }else if (c=='-'){
+                if(cursor != result.begin()){
+                cursor--;
+                cursor = result.erase(cursor);}
+            }
+            else{
+                result.insert(cursor, c);
+            }
+
+        }for(auto i :result){
+            cout<< i;
+        }
+cout<<"\n";
+    }
+
+return 0;
 }
