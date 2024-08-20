@@ -1,0 +1,51 @@
+#include <iostream>
+#include <bits/stdc++.h>
+#include <list>
+#include <iterator>
+using namespace std;
+
+const int MX= 6000001;
+int dat[MX] , pre[MX], nxt[MX];
+int unused=1;
+
+void traverse(){
+    int cur= nxt[0];
+    while(cur !=-1){
+        cout<< dat[cur]<<' ';
+        cur = nxt[cur];
+    }
+    cout<< "\n\n";
+}
+void insert(int addr , int num){
+    dat[unused]= num;
+    nxt[unused]= nxt[addr];
+    pre[unused]= addr;
+    if (nxt[addr] !=-1) pre[nxt[addr]]= unused;
+    nxt[addr]= unused;
+    unused++;
+}
+void erase(int addr ){
+    nxt[pre[addr]] = nxt[addr]; // 이전 노드를 다음노드 가르키도록 (예외처리x)
+    if(nxt[addr] !=-1) pre[nxt[addr]] = pre[addr]; //
+
+}
+
+int main(){
+    fill(pre, pre+MX, -1);
+    fill(nxt, nxt+MX, -1);
+    string str1;
+    int num ;
+
+    }
+// 야매 연결리스트 구현
+
+int stllist(void){ // stl 사용한 연결리스트
+    list<int> L = {1,2};
+    list<int>::iterator t = L.begin();
+    L.push_front(10);
+    cout<< *t << '\n';
+    L.push_back(5);
+    L.insert(t,6);
+    t++;
+    t = L.erase(t);
+}
