@@ -1,0 +1,166 @@
+#include <stdio.h>
+#include <math.h>
+
+
+//함수 헤더 선언
+int input(int []);
+
+int binary2decimal(int []);
+
+int positivebinary(int []);
+
+int convert1(int []);
+
+void decimal2binary(int, int decimal[]);
+
+int plus(int dec1, int dec2, int decimal1[]);
+
+
+int main() {
+    int binary1[8] = {0}, binary2[8] = {0}, num, dec1, dec2;
+    int decimal1[8] = {0};
+
+    //튜토리얼
+    printf("1. 이진수 변환기    2. 이진수 덧셈기    3. 이진수 뺄셈기\n");
+    printf("번호를 선택하세요 : ");
+    scanf("%d", &num);
+
+    //1. 이진수를 십진수로 변환하기
+    if (num == 1) {
+        printf("8비트 이진수를 입력하세요 : ");
+        input(binary1);
+        printf("십진수로 %d 입니다.", binary2decimal(binary1));
+    }
+        //2. 이진수 덧셈기
+    else if (num == 2) {
+        printf("첫 번째 8비트 이진수를 입력하세요 :");
+        input(binary1);
+        printf("두 번째 8비트 이진수를 입력하세요 :");
+        input(binary2);
+        //만약 십진수에서 오버플로우를
+        dec1 = binary2decimal(binary1);
+        dec2 = binary2decimal(binary2);
+
+        plus(dec1, dec2, decimal1);
+    } else {
+        printf("첫 번째 8비트 이진수를 입력하세요 : ");
+        input(binary1);
+        printf("두 번째 8비트 이진수를 입력하세요 : ");
+        input(binary2);
+        convert1(binary2);
+        dec1 = binary2decimal(binary1);
+        dec2 = binary2decimal(binary2);
+        plus(dec1, dec2, decimal1);
+
+    }
+
+    return 0;
+
+}
+
+
+int plus(int dec1, int dec2, int decimal1[]) {
+
+    int result = dec1 + dec2;
+    if (result > 127) {
+        result -= 256;
+        int zzin = result;
+        result = (-1) * result;
+        decimal2binary(result, decimal1);
+        convert1(decimal1);
+        printf("결과는 이진수로 ");
+        for (int i = 0; i < 8; i++) {
+            printf("%d", decimal1[i]);
+        }
+        printf("이고, 십진수로 %d 입니다.", zzin);
+    } else if (result < (-128)) {
+        result += 256;
+        printf("결과는 이진수로  ");
+        decimal2binary(result, decimal1);
+        for (int i = 0; i < 8; i++) {
+            printf("%d", decimal1[i]);
+        }
+        printf("이고, 십진수로 %d 입니다. ", result);
+    } else if (result < 0) {
+        int zzin = result;
+        result = (-1) * result;
+        decimal2binary(result, decimal1);
+        convert1(decimal1);
+        printf("결과는 이진수로 ");
+        for (int i = 0; i < 8; i++) {
+            printf("%d", decimal1[i]);
+        }
+        printf("이고, 십진수로 %d 입니다.", zzin);
+    } else {
+        decimal2binary(result, decimal1);
+        printf("결과는 이진수로 ");
+        for (int i = 0; i < 8; i++) {
+            printf("%d", decimal1[i]);
+        }
+        printf("이고, 십진수로 %d 입니다.", result);
+    }
+
+}
+
+//입력 받기
+int input(int binary[8]) {
+    getchar(); //wow! 엔터 처리를 안해줬더니...ㅋ
+    for (int i = 0; i < 8; i++) {
+        int c = getchar();
+        binary[i] = c - 48;
+    }
+
+    return 0;
+}
+
+int positivebinary(int binary[8]) {
+    double result = 0;
+    for (int i = 7; i >= 0; i--) {
+        result += (binary[7 - i] * pow(2, i));
+    }
+
+    int zzinresult = result;
+
+    return zzinresult;
+}
+
+int convert1(int binary[8]) {
+    for (int i = 0; i < 8; i++) {
+        if (binary[i] == 0) binary[i] = 1;
+        else binary[i] = 0;
+    }
+    for (int i = 7; i >= 0; i--) {
+        if (binary[i] == 0) {
+            binary[i] = 1;
+            break;
+        } else {
+            binary[i] = 0;
+        }
+    }
+    return 0;
+}
+
+int binary2decimal(int binary[8]) {
+    if (binary[0] == 0) {
+        return positivebinary(binary);
+    } else {
+        convert1(binary);
+        return (-1) * positivebinary(binary);
+    }
+
+}
+
+void decimal2binary(int a, int decimal[]) {
+    int mod;
+    for (int i = 0; i < 8; i++) {
+        if (a != 0) {
+            mod = a % 2;
+            decimal[7 - i] = mod;
+            a = a / 2;
+        } else {
+            break;
+        }
+
+    }
+
+}
